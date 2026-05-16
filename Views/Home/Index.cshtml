@@ -1,0 +1,41 @@
+﻿@model IEnumerable<CloudApp.Models.User>
+
+@{
+    ViewData["Title"] = "Главная";
+}
+
+<div class="text-center my-5">
+    <h1 class="display-4 fw-bold text-primary">Мониторинг Пользователей</h1>
+    <p class="lead text-muted">Данные загружаются в реальном времени из облачной базы данных AWS RDS</p>
+</div>
+
+<div class="container">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var user in Model)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm border-0 bg-light">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; font-size: 20px; font-weight: bold;">
+                                @user.Nickname.Substring(0, 1).ToUpper()
+                            </div>
+                            <div class="ms-3">
+                                <h5 class="card-title mb-0 fw-bold">@user.Nickname</h5>
+                                <span class="badge @(user.Status == "Active" || user.Status == "Online" ? "bg-success" : "bg-secondary")">
+                                    @user.Status
+                                </span>
+                            </div>
+                        </div>
+                        <hr class="text-muted" />
+                        <p class="card-text small mb-1"><strong>Дата рождения:</strong> @user.BirthDate.ToShortDateString()</p>
+                        <p class="card-text small mb-1"><strong>Регистрация:</strong> @user.RegistrationDate.ToShortDateString()</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 pt-0">
+                        <small class="text-muted d-block mb-2">Последний вход: @user.LastLogin.ToString("g")</small>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
